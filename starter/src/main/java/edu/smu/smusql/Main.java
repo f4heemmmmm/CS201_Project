@@ -2,8 +2,6 @@ package edu.smu.smusql;
 
 import java.util.*;
 
-// @author ziyuanliu@smu.edu.sg
-
 public class Main {
     /*
      *  Main method for accessing the command line interface of the database engine.
