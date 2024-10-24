@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Map;
 import edu.smu.smusql.Deque;
 
-
-    // Maybe try different data structures for the columns/rows
 public class Table {
+    // Maybe try different data structures for the columns/rows
     private String name;
     private List<String> columns;
     private Deque<Map<String, Object>> rows;
