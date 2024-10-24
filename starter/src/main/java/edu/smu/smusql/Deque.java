@@ -1,5 +1,9 @@
 package edu.smu.smusql;
-public class Deque<E> {
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class Deque<E> implements Iterable<E> {
 
     // Node class to represent each element in the deque
     private static class Node<E> {
@@ -167,5 +171,36 @@ public class Deque<E> {
     // Return the number of elements in the deque
     public int size() {
         return size;
+    }
+
+    // Implement the Iterable interface
+    @Override
+    public Iterator<E> iterator() {
+        return new DequeIterator();
+    }
+
+    // Iterator implementation for the Deque
+    private class DequeIterator implements Iterator<E> {
+        private Node<E> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements in the deque");
+            }
+            E element = current.element;
+            current = current.next;
+            return element;
+        }
+
+        @Override
+        public void remove() {
+            throw new UnsupportedOperationException("Remove operation is not supported");
+        }
     }
 }

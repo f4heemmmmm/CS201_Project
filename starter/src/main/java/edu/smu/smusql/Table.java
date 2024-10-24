@@ -1,16 +1,13 @@
 package edu.smu.smusql;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
 public class Table {
     private String name;
     private List<String> columns;
-
-    // Replace BinarySearchTree with Deque
-    Deque<Map<String, String>> dataList = new ArrayDeque<>();
+    // Use your custom Deque implementation
+    private Deque<Map<String, String>> dataList = new Deque<>();
 
     public String getName() {
         return name;
@@ -45,7 +42,12 @@ public class Table {
 
     // Delete a row by id
     public void delete(int id) {
-        dataList.removeIf(row -> Integer.parseInt(row.get("id")) == id);
+        for (Map<String, String> row : dataList) {
+            if (Integer.parseInt(row.get("id")) == id) {
+                dataList.delete(row); // Use your custom delete method
+                break; // Exit the loop once the row is found and deleted
+            }
+        }
     }
 
     public Table(String name, List<String> columns) {
@@ -53,6 +55,3 @@ public class Table {
         this.columns = columns;
     }
 }
-
-
-
