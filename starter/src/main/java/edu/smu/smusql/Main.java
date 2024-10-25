@@ -14,24 +14,24 @@ public class Main {
 
         System.out.println("smuSQL Starter Code version 0.5");
         System.out.println("Have fun, and good luck!");
+        autoEvaluate();
+        // while (true) {
+        //     System.out.print("smusql> ");
+        //     String query = scanner.nextLine();
+        //     if (query.equalsIgnoreCase("exit")) {
+        //         break;
+        //     } else if (query.equalsIgnoreCase("evaluate")) {
+        //         long startTime = System.nanoTime();
+        //         autoEvaluate();
+        //         long stopTime = System.nanoTime();
+        //         long elapsedTime = stopTime - startTime;
+        //         double elapsedTimeInSecond = (double) elapsedTime / 1_000_000_000;
+        //         System.out.println("Time elapsed: " + elapsedTimeInSecond + " seconds");
+        //         break;
+        //     }
 
-        while (true) {
-            System.out.print("smusql> ");
-            String query = scanner.nextLine();
-            if (query.equalsIgnoreCase("exit")) {
-                break;
-            } else if (query.equalsIgnoreCase("evaluate")) {
-                long startTime = System.nanoTime();
-                autoEvaluate();
-                long stopTime = System.nanoTime();
-                long elapsedTime = stopTime - startTime;
-                double elapsedTimeInSecond = (double) elapsedTime / 1_000_000_000;
-                System.out.println("Time elapsed: " + elapsedTimeInSecond + " seconds");
-                break;
-            }
-
-            System.out.println(dbEngine.executeSQL(query));
-        }
+        //     System.out.println(dbEngine.executeSQL(query));
+        // }
         scanner.close();
     }
 
@@ -43,7 +43,7 @@ public class Main {
     public static void autoEvaluate() {
 
         // Set the number of queries to execute
-        int numberOfQueries = 1000000;
+        int numberOfQueries = 100000;
 
         // Create tables
         dbEngine.executeSQL("CREATE TABLE users (id, name, age, city)");
@@ -55,6 +55,9 @@ public class Main {
 
         // Prepopulate the tables in preparation for evaluation
         prepopulateTables(random);
+
+        // Capture the start time
+        long startTime = System.nanoTime();
 
         // Loop to simulate millions of queries
         for (int i = 0; i < numberOfQueries; i++) {
@@ -81,12 +84,16 @@ public class Main {
                     break;
             }
 
-            // Print progress every 100,000 queries
             if (i % 10000 == 0){
                 System.out.println("Processed " + i + " queries...");
             }
         }
-
+         // Capture the end time
+         long endTime = System.nanoTime();
+         // Calculate the elapsed time in milliseconds
+        long elapsedTime = (endTime - startTime) / 1_000_000;
+         // Print the elapsed time
+         System.out.println("Processed " + numberOfQueries + " queries in " + elapsedTime + " milliseconds.");
         System.out.println("Finished processing " + numberOfQueries + " queries.");
     }
 

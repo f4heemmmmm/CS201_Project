@@ -1,6 +1,7 @@
 package edu.smu.smusql;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Engine {
 
@@ -109,7 +110,12 @@ public class Engine {
 
         // Retrieve rows from the table
         Deque<Map<String, String>> rows = table.getDataList();
-        List<Map<String, String>> resultRows = new ArrayList<>(rows);
+        List<Map<String, String>> resultRows = new ArrayList<>();
+
+        for (Map<String, String> row : rows) {
+            resultRows.add(row);
+        }
+
 
         if (whereClause != null) {
             resultRows = filterRows(resultRows, whereClause);
@@ -168,8 +174,13 @@ public class Engine {
         String whereClause = String.join(" ", Arrays.copyOfRange(tokens, whereIndex + 1, tokens.length));
 
         // Retrieve rows from the table and update
-        List<Map<String, String>> rows = new ArrayList<>(table.getDataList());
-        List<Map<String, String>> rowsToUpdate = filterRows(rows, whereClause);
+        Deque<Map<String, String>> rows = table.getDataList();
+        List<Map<String, String>> resultRows = new ArrayList<>();
+
+        for (Map<String, String> row : rows) {
+            resultRows.add(row);
+        }
+        List<Map<String, String>> rowsToUpdate = filterRows(resultRows, whereClause);
 
         for (Map<String, String> row : rowsToUpdate) {
             for (Map.Entry<String, String> entry : updates.entrySet()) {
@@ -207,8 +218,13 @@ public class Engine {
         }
 
         // Retrieve rows from the table and delete
-        List<Map<String, String>> rows = new ArrayList<>(table.getDataList());
-        List<Map<String, String>> rowsToDelete = filterRows(rows, whereClause);
+        Deque<Map<String, String>> rows = table.getDataList();
+        List<Map<String, String>> resultRows = new ArrayList<>();
+
+        for (Map<String, String> row : rows) {
+            resultRows.add(row);
+        }
+        List<Map<String, String>> rowsToDelete = filterRows(resultRows, whereClause);
 
         for (Map<String, String> row : rowsToDelete) {
             int id = Integer.parseInt(row.get("id"));
