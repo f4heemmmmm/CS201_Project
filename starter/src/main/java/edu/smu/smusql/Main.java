@@ -15,23 +15,23 @@ public class Main {
         System.out.println("smuSQL Starter Code version 0.5");
         System.out.println("Have fun, and good luck!");
         autoEvaluate();
-        while (true) {
-            System.out.print("smusql> ");
-            String query = scanner.nextLine();
-            if (query.equalsIgnoreCase("exit")) {
-                break;
-            } else if (query.equalsIgnoreCase("evaluate")) {
-                long startTime = System.nanoTime();
-                autoEvaluate();
-                long stopTime = System.nanoTime();
-                long elapsedTime = stopTime - startTime;
-                double elapsedTimeInSecond = (double) elapsedTime / 1_000_000_000;
-                System.out.println("Time elapsed: " + elapsedTimeInSecond + " seconds");
-                break;
-            }
+        // while (true) {
+        //     System.out.print("smusql> ");
+        //     String query = scanner.nextLine();
+        //     if (query.equalsIgnoreCase("exit")) {
+        //         break;
+        //     } else if (query.equalsIgnoreCase("evaluate")) {
+        //         long startTime = System.nanoTime();
+        //         autoEvaluate();
+        //         long stopTime = System.nanoTime();
+        //         long elapsedTime = stopTime - startTime;
+        //         double elapsedTimeInSecond = (double) elapsedTime / 1_000_000_000;
+        //         System.out.println("Time elapsed: " + elapsedTimeInSecond + " seconds");
+        //         break;
+        //     }
 
-            System.out.println(dbEngine.executeSQL(query));
-        }
+        //     System.out.println(dbEngine.executeSQL(query));
+        // }
         scanner.close();
     }
 

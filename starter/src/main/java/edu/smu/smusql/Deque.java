@@ -5,12 +5,12 @@ import java.util.NoSuchElementException;
 
 public class Deque<E> implements Iterable<E> {
 
-    // Node class to represent each element in the deque
     private static class Node<E> {
         E element;
         Node<E> next;
         Node<E> prev;
 
+        // Node Constructor
         public Node(E element) {
             this.element = element;
             this.next = null;

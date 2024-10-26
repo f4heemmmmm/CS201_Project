@@ -6,7 +6,6 @@ import java.util.Map;
 public class Table {
     private String name;
     private List<String> columns;
-    // Use your custom Deque implementation
     private Deque<Map<String, String>> dataList = new Deque<>();
 
     public String getName() {
