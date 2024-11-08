@@ -1,18 +1,22 @@
 package edu.smu.smusql;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class Deque<E> implements Iterable<E> {
 
-    // ------------------------------------------------------- NODE CLASS -------------------------------------------------------
+    // ------------------------------------------------------- NODE CLASS ---------------------------------------------------------
     private static class Node<E> {
+        private int id;
         E element;
         Node<E> next;
         Node<E> previous;
 
         // Node: Constructor
-        public Node(E element) {
+        public Node(int id, E element) {
+            this.id = id;
             this.element = element;
             this.next = null;
             this.previous = null;
@@ -39,24 +43,25 @@ public class Deque<E> implements Iterable<E> {
         public boolean hasNext() {
             return current != null;
         }
-
-        // DequeIterator: remove()
-        @Override
-        public void remove() {
-            throw new UnsupportedOperationException("Remove operation is not supported. \n");
-        }
     }
 
     // ------------------------------------------------------- DEQUE CLASS METHODS -------------------------------------------------------
     private Node<E> head;
     private Node<E> tail;
-    private int size;   // Chose to have an attribute that keeps track of the size, instead of a method to calculate the size due to the time complexity always being O(1)
-
+    private int size = 0;   // Chose to have an attribute that keeps track of the size, instead of a method to calculate the size due to the time complexity always being O(1)
+    private String name;
 
     // Deque: Constructor
     public Deque() {
         head = null;
         tail = null;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
     // Deque: isEmpty() -> Checks if the deque is empty
@@ -75,28 +80,9 @@ public class Deque<E> implements Iterable<E> {
         return new DequeIterator();
     }
 
-    // Deque: peekFirst() -> Retrieves the first element in the deque
-    public E peekFirst() {
-        if (isEmpty()) {
-            throw new IllegalStateException("The deque is empty. \n");
-        } else {
-            return head.element;
-        }
-    }
-    
-    // Deque: peekLast() -> Retrieves the last element in the deque
-    public E peekLast() {
-        if (isEmpty()) {
-            throw new IllegalStateException("The deque is empty. \n");
-        }
-        else {
-            return tail.element;
-        }
-    }
-
     // Deque: addFirst -> Insert an element from the front
-    public void addFirst(E element) {
-        Node<E> newNode = new Node<E>(element);
+    public void addFirst(int id, E element) {
+        Node<E> newNode = new Node<E>(id, element);
         if (isEmpty()) {
             head = newNode;
             tail = newNode;
@@ -109,8 +95,8 @@ public class Deque<E> implements Iterable<E> {
     }
 
     // Deque: addLast() -> Insert a nelement from the back
-    public void addLast(E element) {
-        Node<E> newNode = new Node<E>(element);
+    public void addLast(int id, E element) {
+        Node<E> newNode = new Node<E>(id, element);
         if (isEmpty()) {
             head = newNode;
             tail = newNode;
@@ -122,35 +108,13 @@ public class Deque<E> implements Iterable<E> {
         size++;
     }
 
+
     // Deque: addAtIndex() -> Insert an element at a specific index
-    public void addAtIndex(int index, E element) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException("Index is not within the correct range of the deque. \n");
-        }
-        if (index == 0) {
-            addFirst(element);
-        } else if (index == size) {
-            addLast(element);
-        } else {
-            Node<E> newNode = new Node<E>(element);
-            Node<E> current;
-            if (index <= size / 2) {
-                current = head;
-                for (int i = 0; i < index; i++) {
-                    current = current.next;
-                }
-            } else {
-                current = tail;
-                for (int i = size - 1; i > index; i--) {
-                    current = current.previous;
-                }
-            }
-            newNode.next = current;
-            newNode.previous = current.previous;
-            current.previous.next = newNode;
-            current.previous = newNode;
-            size++;
-        }
+    public void insert(int id, E element) {
+        if (head == null) {
+            addFirst(id, element);
+        } else 
+            addLast(id, element);
     }
 
     // Deque: removeFirst() -> Removes and returns the element at the front of the deque
@@ -188,24 +152,22 @@ public class Deque<E> implements Iterable<E> {
     }
 
     // Deque: search() -> Search for an element and returns its index
-    public int search(E element) {
+    public E search(int key) {
         Node<E> current = head;
-        int index = 0;
         while (current != null) {
-            if (current.element.equals(element)) {
-                return index;
+            if (current.id == key) {
+                return current.element;
             }
             current = current.next;
-            index++;
         }
-        return -1;
+        return null;
     }
 
     // Deque: delete() -> Deletes an element
-    public boolean delete(E element) {
+    public void delete(int key) {
         Node<E> current = head;
         while (current != null) {
-            if (current.element.equals(element)) {
+            if (current.id == (key)) {
                 if (current == head) {
                     removeFirst();
                 } else if (current == tail) {
@@ -215,11 +177,20 @@ public class Deque<E> implements Iterable<E> {
                     current.next.previous = current.previous;
                     size--;
                 }
-                return true;
+                return;
             }
             current = current.next;
         }
-        return false;
+        return;
+    }
+
+        public List<E> inorderTraversal() {
+        List<E> result = new ArrayList<>();
+        Iterator<E> iterator = this.iterator();
+        while (iterator.hasNext()) {
+            result.add(iterator.next());
+        }
+        return result;
     }
 }
 
